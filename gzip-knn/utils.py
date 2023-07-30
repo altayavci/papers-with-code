@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd 
 import seaborn as sns 
 
-from sklearn.metrics import confusion_matrix, classification_report, 
+from sklearn.metrics import confusion_matrix, classification_report 
 
 def plot_confusion_matrix(val_y, pred, classes, save_img):
     plt.figure(figsize = (15, 13), facecolor = 'silver', edgecolor = 'gray')
