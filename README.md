@@ -1,2 +1,2 @@
-# papers-with-code
-This repo includes machine learning papers with their codes 
+# Papers with Code ! 
+I'm trying to code the papers I read in my spare time. Wish me luck :)
