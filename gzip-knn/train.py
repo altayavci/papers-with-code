@@ -19,14 +19,12 @@ parser.add_argument("--n_neighbor", required=False, default=8)
 
 opt = parser.parse_args()
 
-dataset_name = opt.dataset
-n_neighbor = int(opt.n_neighbor)
 
 data_path = str(os.getenv("DATA_PATH"))
 conf_matrix_path = str(os.getenv("CONFUSSION_MATRIX_PATH"))
 class_report_path = str(os.getenv("CLASS_REPORT_PATH"))
 
-dataset_path = os.path.join(data_path, dataset_name)
+dataset_path = os.path.join(data_path, opt.dataset)
 dataset = pd.read_csv(dataset_path)
 
 train_x, val_x, train_y, val_y = train_test_split(dataset.text.values, dataset.target.values, test_size=0.33, random_state=42)
@@ -53,12 +51,14 @@ if __name__ == "__main__":
     for i, row in val_results:
         val_ncd[i] = row
 
-    knn = KNeighborsClassifier(n_neighbors=n_neighbor)
+    knn = KNeighborsClassifier(n_neighbors=int(opt.n_neighbor))
     knn.fit(train_ncd, train_y)
     preds = knn.predict(val_ncd)
-    accuracy = knn.score(val_ncd, val_y)
+    val_accuracy = knn.score(val_ncd, val_y)
+    train_accuracy = knn.score(train_ncd, train_y)
 
-    print("accuracy:", accuracy)
+    print("Train accuracy:", train_accuracy)
+    print("Validation accuracy:", val_accuracy)
     classes = knn.classes_.tolist()
     plot_confusion_matrix(val_y, preds, classes,  conf_matrix_path)
     plot_classification_report(val_y, preds, classes, class_report_path)
